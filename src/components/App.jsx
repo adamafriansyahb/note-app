@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from './Header';
 import Note from './Note';
 import Footer from './Footer';
-import notes from '../notes';
+import myNotes from '../notes';
+import CreateArea from './CreateArea';
 
 
 function theNotes(note) {
@@ -16,10 +17,22 @@ function theNotes(note) {
 }
 
 function App() {
+
+    const [notes, setNotes] = useState([]);
+
+    function addNote(newNote) {
+        setNotes(prevNotes => {
+            return [...prevNotes, newNote]
+        });
+    }
+
     return (
         <div>
             <Header />
-            {notes.map(theNotes)}
+            <CreateArea onAdd={addNote} />
+            {notes.map(note => {
+                return <Note title={note.title} content={note.content} />;
+            })}
             <Footer />
         </div>
     );
